@@ -1,0 +1,37 @@
+
+Caption
+accommodation type for rent in a residence and castle
+Cls
+1. fountain, 69%
+2. lakeside, lakeshore, 9%
+3. palace, 8%
+4. seashore, coast, seacoast, sea-coast, 1%
+5. patio, terrace, 1%
+
+Caption
+the sun sets over bodies of water.
+Cls
+1. seashore, coast, seacoast, sea-coast, 48%
+2. lakeside, lakeshore, 17%
+3. beacon, lighthouse, beacon light, pharos, 4%
+4. promontory, headland, head, foreland, 2%
+5. parachute, chute, 2%
+
+Caption
+palm trees on a tropical beach wallpapers and images wallpapers pictures 2560x1600
+Cls
+1. lakeside, lakeshore, 50%
+2. coral reef, 15%
+3. seashore, coast, seacoast, sea-coast, 7%
+4. sandbar, sand bar, 4%
+5. promontory, headland, head, foreland, 2%
+
+Caption
+table setting on the beach
+Cls
+1. patio, terrace, 44%
+2. restaurant, eating house, eating place, eatery, 29%
+3. yurt, 11%
+4. dome, 2%
+5. folding chair, 2%
+KeywordsLionel MessiFC BarcelonaEnglish Premier League
