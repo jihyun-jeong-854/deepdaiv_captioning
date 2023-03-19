@@ -23,3 +23,20 @@ class ImageFolderDataset(Dataset):
     
     def __len__(self):
         return len(self.image_names)
+    
+# Gradio 형식에 맞게 수정
+class ImageListDatasetFromGradio(Dataset):
+    def __init__(self, image_list, transform=None):
+        self.image_list = image_list
+        self.transform = transform
+
+    def __getitem__(self, index):
+        image = self.image_list[index]
+
+        if self.transform:
+            image=self.transform(image)
+
+        return image
+
+    def __len__(self):
+        return len(self.image_list)
