@@ -1,5 +1,5 @@
 # deepdaiv_captioning
-인스타그램 해시테그 생성기
+인스타그램 해시태그 생성기
 
 
     git clone https://github.com/rachel618/deepdaiv_captioning.git
