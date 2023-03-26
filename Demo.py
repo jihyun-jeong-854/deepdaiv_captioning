@@ -1,6 +1,8 @@
 import gradio as gr
-from cap_cls_0319 import cap_cls
+from caption import captioning
 import argparse
+from cap_to_hashtag import cap2hashtag
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--cap-dir', default='OFA-base', help='caption cap_model dir')
@@ -13,8 +15,10 @@ arguments = parser.parse_args()
 
 
 def hashtag_generation(*args, arugments=arguments):
-    caption_list=cap_cls(*args, arguments=arguments)
-    return caption_list
+    caption_list=captioning(*args, arguments=arguments)
+    core, relative, impression = cap2hashtag(caption_list)
+    # list
+    return core, relative, impression
     
 
 def copy(text_output=str, final_output=str):
@@ -22,15 +26,6 @@ def copy(text_output=str, final_output=str):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--cap-dir', default='OFA-base', help='caption cap_model dir')
-    parser.add_argument('--cls-dir', default='', help='classification cap_model dir')
-    parser.add_argument('--folder-path', default='test-img/dir1', help='image dir')
-    parser.add_argument('--pred-num', default=5, help='predict how many classes')
-    parser.add_argument('--img-format', default='jpg', help='Image format')
-    parser.add_argument('--annot-path', default='test-img', help='annotation path')
-
-    args = parser.parse_args()
 
     with gr.Blocks() as demo:
         gr.Markdown(" <center><h1> Instagram Hashtag Generator </h1> </center>")
@@ -47,18 +42,6 @@ def main():
                 #examples = gr.Examples(examples=['img/cheetah.jpg', 'img/elephang.jpg', 'img/giraffe.jpg', 'img/hippo.jpg', 'img/lion.jpg'])
 
             with gr.Column(): # output1 (core), output2 (related), output3 (most likeable), total
-                #================================================
-                gr.Markdown(" <center><h3> Caption1 </h3> </center>")
-                caption_output1 = gr.Textbox(interactive=True, lines=4)
-                gr.Markdown(" <center><h3> Caption2 </h3> </center>")
-                caption_output2 = gr.Textbox(interactive=True, lines=4)
-                gr.Markdown(" <center><h3> Caption3 </h3> </center>")
-                caption_output3 = gr.Textbox(interactive=True, lines=4)
-                gr.Markdown(" <center><h3> Caption4 </h3> </center>")
-                caption_output4 = gr.Textbox(interactive=True, lines=4)
-                gr.Markdown(" <center><h3> Caption5 </h3> </center>")
-                caption_output5 = gr.Textbox(interactive=True, lines=4)
-                #================================================
                 
                 gr.Markdown(" <center><h3> The most relative hashtags of your photos </h3> </center>")
                 text_output1 = gr.Textbox(interactive=True, lines=4)
@@ -72,7 +55,7 @@ def main():
                 final_output = gr.TextArea()
             #=========================================================================================================================
             input_bttn.click(hashtag_generation, inputs=[image_input1, image_input2, image_input3, image_input4, image_input5],\
-                              outputs=[caption_output1, caption_output2, caption_output3, caption_output4, caption_output5])
+                              outputs=[text_output1, text_output2, text_output3])
             #=========================================================================================================================
             #input_bttn.click(hashtag_generation, inputs=[image_input1, image_input2, image_input3, image_input4, image_input5], outputs=[text_output1, text_output2, text_output3])
             acceptance_1.click(copy, inputs=[text_output1, final_output], outputs=final_output)
