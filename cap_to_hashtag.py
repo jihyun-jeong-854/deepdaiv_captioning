@@ -1,4 +1,3 @@
-
 from transformers import OFATokenizer
 # pip install gensim
 import gensim
@@ -37,18 +36,28 @@ def cap2hashtag(cap_list):
     keywords = kw_extractor.extract_keywords(docs)
     keywords.sort(key = lambda x : x[1], reverse = True)
     
+    if 'background' in keywords:
+        num_of_inputs += 1
 
     for kw, v in keywords[:num_of_inputs]:
         kw = re.sub('[^a-zA-Z]+',' ',kw)
-        relatives = model.wv.most_similar('Ġ' + kw.split(' ')[0])
-        top_3 = sorted(relatives,key = lambda x : x[1],reverse = True)[:num_of_relative_per_image]
-        relative.extend([re.sub('Ġ', '', x) for x, y in top_3])
-        core.append(kw)
+        
+        if kw == 'background':
+            continue
+        
+        try:
+            relatives = model.wv.most_similar('Ġ' + kw.split(' ')[0])
+            top_3 = sorted(relatives,key = lambda x : x[1],reverse = True)[:num_of_relative_per_image]
+            relative.extend([re.sub('Ġ', '', x) for x, y in top_3])
+            core.append(kw)
+            
+        except:
+            print(kw)
     
     print(core, relative)
     print(len(core), len(relative))
     return core, relative, impression 
-# for local test => $ python cap_to_hashtag.py
+
 # if __name__ == "__main__":
 #     cap_list = ['cheetah running in the grass', 
 #                 'an elephant walking along a dirt road',
