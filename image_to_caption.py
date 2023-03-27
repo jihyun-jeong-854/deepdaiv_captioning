@@ -9,8 +9,7 @@ from captioning_dataset import ImageFolderDataset, ImageListDatasetFromGradio
 from torch.utils.data import Dataset, DataLoader
 
 
-
-def captioning(*args, arguments):
+def img2cap(*args, arguments):
 
     # Caption generation
 
