@@ -1,45 +1,9 @@
 
 Caption
-cheetah running in the grass
-Cls
-1. Scottish deerhound, deerhound, 40%
-2. Irish wolfhound, 13%
-3. Saluki, gazelle hound, 4%
-4. borzoi, Russian wolfhound, 3%
-5. wallaby, brush kangaroo, 2%
-
+view from the top of the tallest building in miami
 Caption
-an elephant walking along a dirt road.
-Cls
-1. Indian elephant, Elephas maximus, 13%
-2. Arabian camel, dromedary, Camelus dromedarius, 9%
-3. water buffalo, water ox, Asiatic buffalo, Bubalus bubalis, 4%
-4. bison, 2%
-5. fountain, 2%
-
+a view of the blue city of jodhpur
 Caption
-a giraffe standing in a grassy field with a mountain in the background.
-Cls
-1. rapeseed, 13%
-2. umbrella, 3%
-3. barn, 1%
-4. hay, 1%
-5. triceratops, 1%
-
+aerial view of the beach in hong kong
 Caption
-a hippopotamus in the okavango delta, botswana.
-Cls
-1. hog, pig, grunter, squealer, Sus scrofa, 96%
-2. wild boar, boar, Sus scrofa, 3%
-3. warthog, 0%
-4. hippopotamus, hippo, river horse, Hippopotamus amphibius, 0%
-5. water buffalo, water ox, Asiatic buffalo, Bubalus bubalis, 0%
-
-Caption
-lion in the serengeti national park, tanzania
-Cls
-1. lion, king of beasts, Panthera leo, 23%
-2. Afghan hound, Afghan, 5%
-3. Pekinese, Pekingese, Peke, 3%
-4. baboon, 3%
-5. Leonberg, 3%
+a city skyline at night.
