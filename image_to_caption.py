@@ -27,11 +27,11 @@ def img2cap(*args, arguments):
 
     txt = " what does the image describe?"
     cap_inputs = tokenizer([txt], return_tensors="pt").input_ids
-    
+
     # folder_path=args.folder_path
     img_list = []
     for i, img in enumerate(args):
-        if (img != None) and (img != False):
+        if (img != None) and (img != False) and (type(img) != bool):
             img_list.append(img)
 
     dataset = ImageListDatasetFromGradio(
@@ -53,9 +53,9 @@ def img2cap(*args, arguments):
                   arguments.folder_path.split('/')[1]+'.txt')
     print(annot_path)
     annot = open(annot_path, 'w')
-    cls_list = []
+
     cap_list = []
-    corpus = ""
+
     # 여기서 끝났는데 Nonetype으로 받고있음
     for batch_idx, image in enumerate(dataloader):
         data = {}

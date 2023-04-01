@@ -24,20 +24,20 @@ def variable_outputs(k):
     return [gr.Image(type='pil').update(visible=True)]*k + [gr.Image(type='pil').update(visible=False)]*(max_imageboxes-k)
 
 
-def hashtag_generation(*args, arugments=arguments, bool_affluent_hashtags=True, bool_hashtags=True):
+def hashtag_generation(*args, arugments=arguments):
 
     caption_list = img2cap(*args, arguments=arguments)
     core, relative, impression = cap2hashtag(caption_list)
 
-    if bool_affluent_hashtags:
+    if args[-2] == False:  # bool_affluent_hashtags
         relative = []
-    if bool_hashtags:
+    if args[-1] == False:  # bool_hashtags
         impression = []
 
-    return str(core).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' ', '_'), \
-        str(relative).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' ', '_'), \
+    return str(core).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_'), \
+        str(relative).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_'), \
         str(impression).lstrip('[').rstrip(']').replace(
-            '\'', '').replace(', ', '').replace(' ', '_')
+            '\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_')
 
 
 def copy(text_output=str, final_output=str):
@@ -46,9 +46,10 @@ def copy(text_output=str, final_output=str):
 
 def main():
     with gr.Blocks() as demo:
-        gr.Markdown(" <center><h1> Instagram Hashtag Generator </h1> </center>")
-        with gr.Row():
-            with gr.Column():
+        gr.Markdown(
+            " <center><h1> Instagram Hashtag Generator </h1> </center>")
+        with gr.Column():
+            with gr.Row():
                 bool_affluent_hashtags = gr.Checkbox(
                     label="Do you want more affluent recommentation using wordmap?")
                 bool_hashtags = gr.Checkbox(
@@ -58,6 +59,7 @@ def main():
                               step=1, label="Your Input Image Number:")
                 imageboxes = []
                 # 처음에 10개
+            with gr.Row():
                 for i in range(max_imageboxes):
                     t = gr.Image(type='pil')
                     imageboxes.append(t)
@@ -65,31 +67,46 @@ def main():
                 # Input 개수 바꾸기
                 s.change(variable_outputs, s, imageboxes)
                 #print("이미지 개수: ", float(s.value))
-
-                input_bttn = gr.Button("Submit")
+            with gr.Row():
+                input_bttn = gr.Button("Submit").style(full_width=True)
                 #examples = gr.Examples(examples=['img/cheetah.jpg', 'img/elephang.jpg', 'img/giraffe.jpg', 'img/hippo.jpg', 'img/lion.jpg'])
 
-            with gr.Column():  # output1 (core), output2 (related), output3 (most likeable), total
+            with gr.Row():  # output1 (core), output2 (related), output3 (most likeable), total
                 # ===============================================
+                with gr.Column(scale=1, min_width=200):
+                    gr.Markdown(
+                        " <center><h5>The most relative hashtags of your photos </h5> </center>")
+                with gr.Column(scale=10):
+                    core = gr.Textbox(interactive=True,
+                                      lines=4)
+                with gr.Column(scale=1, min_width=100):
+                    acceptance_1 = gr.Button("Accept All")
+            with gr.Row():  # output1 (core), output2 (related), output3 (most likeable), total
+                # ===============================================
+                with gr.Column(scale=1, min_width=200):
+                    gr.Markdown(
+                        " <center><h5> More affluent recommendation results </h5> </center>")
+                with gr.Column(scale=10):
+                    relative = gr.Textbox(interactive=True,
+                                          lines=4)
+                with gr.Column(scale=1, min_width=100):
+                    acceptance_2 = gr.Button("Accept All")
+            with gr.Row():  # output1 (core), output2 (related), output3 (most likeable), total
+                # ===============================================
+                with gr.Column(scale=1, min_width=200):
+                    gr.Markdown(
+                        " <center><h5> Also these are for impressions </h5> </center>")
+                with gr.Column(scale=10):
+                    impression = gr.Textbox(interactive=True,
+                                            lines=4)
+                with gr.Column(scale=1, min_width=100):
+                    acceptance_3 = gr.Button("Accept All")
 
-                gr.Markdown(
-                    " <center><h3> The most relative hashtags of your photos </h3> </center>")
-                core = gr.Textbox(interactive=True, lines=4)
-                acceptance_1 = gr.Button("Accept All")
-
-                gr.Markdown(
-                    " <center><h3> More affluent recommendation results </h3> </center>")
-                relative = gr.Textbox(interactive=True, lines=4)
-                acceptance_2 = gr.Button("Accept All")
-
-                gr.Markdown(
-                    " <center><h3> Also these are for impressions </h3> </center>")
-                impression = gr.Textbox(interactive=True, lines=4)
-                acceptance_3 = gr.Button("Accept All")
-
+            with gr.Row():
                 final_output = gr.TextArea()
 
             # =========================================================================================================================
+            # Input이 gradio component들의 List가 되어야 하는데, tuple은 gradio component가 아님.
             input_bttn.click(hashtag_generation, inputs=imageboxes + [bool_affluent_hashtags, bool_hashtags],
                              outputs=[core, relative, impression])
             # =========================================================================================================================
