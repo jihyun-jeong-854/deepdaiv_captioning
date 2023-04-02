@@ -1,9 +1,9 @@
 from transformers import OFATokenizer
 # pip install gensim
-import gensim
 import argparse
 import yake
 import re
+from gensim.models import KeyedVectors
 
 
 def cap2hashtag(cap_list):
@@ -16,7 +16,8 @@ def cap2hashtag(cap_list):
     num_of_inputs = len(cap_list)
     num_of_cores = 5 if num_of_inputs < 3 else num_of_inputs * 2
     num_of_relative_per_image = 2
-    model = gensim.models.Word2Vec.load('1minwords')
+    
+    word2vec = KeyedVectors.load_word2vec_format("eng_w2v") # 모델 로드
     docs = ". ".join(cap_list)
 
     tokenizer = OFATokenizer.from_pretrained('OFA-base')
@@ -62,7 +63,7 @@ def cap2hashtag(cap_list):
 
     # print(core, relative)
     # print(len(core), len(relative))
-    print(core)
+    print(core, relative, impression)
     return core, relative, impression
 
 # if __name__ == "__main__":
