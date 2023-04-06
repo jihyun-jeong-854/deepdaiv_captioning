@@ -1,7 +1,6 @@
 import argparse
 import gradio as gr
 from image_to_caption_dif import img2cap
-from cls import img2cls
 from cap_to_hashtag_bert import cap2hashtag
 from image2text import vd_inference
 
@@ -30,17 +29,26 @@ def variable_outputs(k):
 
 def hashtag_generation(*args, model=vd_infer, arugments=arguments):
     caption_list = img2cap(*args, model=model, arguments=arguments) 
-    core, relative, impression = cap2hashtag(caption_list)
+    core, relative = cap2hashtag(caption_list)
     if args[-2] == False:  # bool_affluent_hashtags
         relative = []
     if args[-1] == False:  # bool_hashtags
-        impression = []
+        pass
 
     return str(core).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_'), \
         str(relative).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_'), \
-        str(impression).lstrip('[').rstrip(']').replace(
-            '\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_')
 
+
+def fn_impression(inp=list):
+
+    impression = list()
+    with open('impressions.json','r') as fr:
+        imp_dict = json.load(fr)
+    
+    for i in inp:
+        impression.append(imp_dict[i])
+
+    return str(impression).replace(', ', '').replace('"','')
 
 def copy(text_output=str, final_output=str):
     return final_output + text_output
@@ -55,8 +63,6 @@ def main():
             with gr.Row():
                 bool_affluent_hashtags = gr.Checkbox(
                     label="Do you want more affluent recommentation using wordmap?")
-                bool_hashtags = gr.Checkbox(
-                    label="Do you want more hashtags for impression?")
 
                 s = gr.Slider(1, max_imageboxes, value=max_imageboxes,
                               step=1, label="Your Input Image Number:")
@@ -100,8 +106,10 @@ def main():
                     gr.Markdown(
                         " <center><h5> Also these are for impressions </h5> </center>")
                 with gr.Column(scale=10):
+                    imp_keys = gr.CheckboxGroup(['like', 'fashion', 'food', 'travel', 'pet', 'tech', 'wedding', 'fitness', 'holiday', 'photography', 'music', 'art', 'nature', 'Reels'], label="Choose categories (select all)")
                     impression = gr.Textbox(interactive=True,
                                             lines=4)
+                    imp_keys.change(fn_impression, imp_keys, impression)
                 with gr.Column(scale=1, min_width=100):
                     acceptance_3 = gr.Button("Accept All")
 
@@ -110,7 +118,7 @@ def main():
 
             # =========================================================================================================================
             # Input이 gradio component들의 List가 되어야 하는데, tuple은 gradio component가 아님.
-            input_bttn.click(hashtag_generation, inputs=imageboxes + [bool_affluent_hashtags, bool_hashtags],
+            input_bttn.click(hashtag_generation, inputs=imageboxes + [bool_affluent_hashtags],
                              outputs=[core, relative, impression])
             # =========================================================================================================================
             #input_bttn.click(hashtag_generation, inputs=[image_input1, image_input2, image_input3, image_input4, image_input5], outputs=[text_output1, text_output2, text_output3])

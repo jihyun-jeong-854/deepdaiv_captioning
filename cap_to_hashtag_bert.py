@@ -16,7 +16,6 @@ def cap2hashtag(cap_list):
 
     core = []
     relative = []
-    impression = []
 
     cap_list=sum(cap_list, [])
 
@@ -62,9 +61,8 @@ def cap2hashtag(cap_list):
 
     core = ['#{}'.format(x) for x in core]
     relative = ['#{}'.format(x) for x in relative]
-    impression = ['#{}'.format(x) for x in impression]
 
-    return core, relative, impression
+    return core, relative
 
 
 # if __name__ == "__main__":
