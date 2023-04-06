@@ -2,3 +2,4 @@ OFA/
 OFA-base/
 *.pyc
 1minwords
+pretrained/

@@ -1,7 +1,9 @@
 import argparse
 import gradio as gr
-from image_to_caption import img2cap
-from cap_to_hashtag import cap2hashtag
+from image_to_caption_dif import img2cap
+from cls import img2cls
+from cap_to_hashtag_bert import cap2hashtag
+from image2text import vd_inference
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--cap-dir', default='OFA-base',
@@ -16,6 +18,8 @@ arguments = parser.parse_args()
 
 max_imageboxes = 10
 
+vd_infer = vd_inference(which='v1.0', fp16=True)
+
 
 def variable_outputs(k):
     k = int(k)
@@ -24,11 +28,9 @@ def variable_outputs(k):
     return [gr.Image(type='pil').update(visible=True)]*k + [gr.Image(type='pil').update(visible=False)]*(max_imageboxes-k)
 
 
-def hashtag_generation(*args, arugments=arguments):
-
-    caption_list = img2cap(*args, arguments=arguments)
+def hashtag_generation(*args, model=vd_infer, arugments=arguments):
+    caption_list = img2cap(*args, model=model, arguments=arguments) 
     core, relative, impression = cap2hashtag(caption_list)
-
     if args[-2] == False:  # bool_affluent_hashtags
         relative = []
     if args[-1] == False:  # bool_hashtags
@@ -45,6 +47,7 @@ def copy(text_output=str, final_output=str):
 
 
 def main():
+
     with gr.Blocks() as demo:
         gr.Markdown(
             " <center><h1> Instagram Hashtag Generator </h1> </center>")
