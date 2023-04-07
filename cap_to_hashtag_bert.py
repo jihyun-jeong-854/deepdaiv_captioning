@@ -18,7 +18,7 @@ def cap2hashtag(cap_list):
     relative = []
     impression = []
 
-    cap_list=sum(cap_list, [])
+    cap_list = sum(cap_list, [])
 
     docs = ". ".join(cap_list)
     num_of_inputs = len(cap_list)
@@ -42,7 +42,7 @@ def cap2hashtag(cap_list):
                 for index in distances.argsort()[0][-num_of_cores:]]  # list
 
     # w2v model
-    #w2v_model = gensim.models.Word2Vec.load('1minwords')
+    # w2v_model = gensim.models.Word2Vec.load('1minwords')
 
     # postprocessing for core, relatives
     for kw in keywords:
