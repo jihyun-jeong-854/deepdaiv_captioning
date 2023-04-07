@@ -68,13 +68,24 @@ def cap2hashtag(cap_list, w2v, bert):
     #         print("not tokenized", kw)
     #         continue
     #     cnt = 0
-    while not len(core) == 0:  # core.empty():
+
+    print("키워드:", keywords)
+    print("코어:", core)
+
+    # len(core) 가 0 이 아니면 계속 실행
+    # 근데 여기서 len(core) 은 시작때 0인데 그럼 While 문 자체가 안도는거아님?
+
+    while len(keywords) != 0:  # not keywords.empty()
 
         if len(core) == num_of_cores:
             break
 
         kw = keywords.pop(0)
+
+        print("====================================")
+        print("키워드 하나:", kw)
         core.append(kw)
+        print("코어:", core)
 
         try:
             relatives = w2v.most_similar(kw)
@@ -82,7 +93,6 @@ def cap2hashtag(cap_list, w2v, bert):
 
             relative.extend([x for x, y in top_n if x ==
                             re.sub('[^a-zA-Z]+', ' ', x)])
-            # core.append(kw)
 
         except:
             print("not tokenized", kw)

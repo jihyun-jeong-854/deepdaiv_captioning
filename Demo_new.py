@@ -38,11 +38,11 @@ def hashtag_generation(*args, captioning_model=vd_infer, w2v=w2v, bert=bert, aru
     caption_list = img2cap(*args, model=captioning_model, arguments=arguments)
     core, relative = cap2hashtag(caption_list, w2v, bert)
 
-    if args[-2] == False:  # bool_affluent_hashtags
+    if args[-1] == False:  # bool_affluent_hashtags
         relative = []
 
-    return str(core).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_'), \
-        str(relative).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_'), \
+    return str(core).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_').rstrip('_'), \
+        str(relative).lstrip('[').rstrip(']').replace('\'', '').replace(', ', '').replace(' #', '#').replace(' ', '_').rstrip('_'), \
 
 
 
@@ -94,7 +94,7 @@ def main():
                         " <center><h5>The most relative hashtags of your photos </h5> </center>")
                 with gr.Column(scale=10):
                     core = gr.Textbox(interactive=True,
-                                      lines=4)
+                                      lines=4, label='Most relevant', placeholder='Most relevant hashtags will be displayed')
                 with gr.Column(scale=1, min_width=100):
                     acceptance_1 = gr.Button("Accept All")
             with gr.Row():  # output1 (core), output2 (related), output3 (most likeable), total
@@ -104,7 +104,7 @@ def main():
                         " <center><h5> More affluent recommendation results </h5> </center>")
                 with gr.Column(scale=10):
                     relative = gr.Textbox(interactive=True,
-                                          lines=4)
+                                          lines=4, label="More affluent", placeholder='More affluent hashtags will be displayed')
                 with gr.Column(scale=1, min_width=100):
                     acceptance_2 = gr.Button("Accept All")
             with gr.Row():  # output1 (core), output2 (related), output3 (most likeable), total
@@ -117,7 +117,7 @@ def main():
                     imp_keys = gr.CheckboxGroup(['like', 'fashion', 'food', 'travel', 'pet', 'tech', 'wedding', 'fitness',
                                                 'holiday', 'photography', 'music', 'art', 'nature', 'Reels'], label="Choose categories (select all)")
                     impression = gr.Textbox(interactive=True,
-                                            lines=4)
+                                            lines=4, label="For impression", placeholder="Hashtags for impression will be displayed")
                     imp_keys.change(fn_impression, imp_keys, impression)
 
                 with gr.Column(scale=1, min_width=100):
