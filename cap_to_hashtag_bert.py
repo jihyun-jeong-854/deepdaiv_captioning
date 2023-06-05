@@ -8,7 +8,6 @@ import re
 def getpreferredencoding(do_setlocale=True):
     return "UTF-8"
 
-
 def cap2hashtag(cap_list):
 
     locale.getpreferredencoding = getpreferredencoding
