@@ -1,7 +1,7 @@
 import argparse
 import gradio as gr
-from image_to_caption_new import img2cap
-from cap_to_hashtag_new import cap2hashtag
+from image_to_caption import img2cap
+from cap_to_hashtag import cap2hashtag
 from image2text import vd_inference
 import gensim.downloader as api
 from sentence_transformers import SentenceTransformer, util
