@@ -5,7 +5,6 @@ import gensim
 import locale
 import re
 
-
 def getpreferredencoding(do_setlocale=True):
     return "UTF-8"
 
